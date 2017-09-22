@@ -1,0 +1,186 @@
+PODS:
+  - CYLTabBarController (1.13.1)
+  - DZNEmptyDataSet (1.8.1)
+  - FDFullscreenPopGesture (1.1)
+  - FLAnimatedImage (1.0.12)
+  - libwebp (0.6.0):
+    - libwebp/core (= 0.6.0)
+    - libwebp/dec (= 0.6.0)
+    - libwebp/demux (= 0.6.0)
+    - libwebp/dsp (= 0.6.0)
+    - libwebp/enc (= 0.6.0)
+    - libwebp/mux (= 0.6.0)
+    - libwebp/utils (= 0.6.0)
+    - libwebp/webp (= 0.6.0)
+  - libwebp/core (0.6.0):
+    - libwebp/webp
+  - libwebp/dec (0.6.0):
+    - libwebp/core
+  - libwebp/demux (0.6.0):
+    - libwebp/core
+  - libwebp/dsp (0.6.0):
+    - libwebp/core
+  - libwebp/enc (0.6.0):
+    - libwebp/core
+  - libwebp/mux (0.6.0):
+    - libwebp/core
+  - libwebp/utils (0.6.0):
+    - libwebp/core
+  - libwebp/webp (0.6.0)
+  - LLKit (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - LLKit/HorizontalSelector (= 1.0.0)
+    - LLKit/LLEvaluationStar (= 1.0.0)
+    - LLKit/LLExpand (= 1.0.0)
+    - LLKit/LLHud (= 1.0.0)
+    - LLKit/LLMJRefreshControl (= 1.0.0)
+    - LLKit/LLSlidePageScrollView (= 1.0.0)
+    - LLKit/LLSwitch (= 1.0.0)
+    - LLKit/LLUtility (= 1.0.0)
+    - LLKit/LLWeb (= 1.0.0)
+    - LLKit/LLWebp (= 1.0.0)
+    - LLKit/NavSegmentView (= 1.0.0)
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLKit/HorizontalSelector (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+    - YYKit
+  - LLKit/LLEvaluationStar (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLKit/LLExpand (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLKit/LLHud (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - MBProgressHUD (~> 0.9.1)
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLKit/LLMJRefreshControl (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - MJRefresh
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLKit/LLSlidePageScrollView (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLKit/LLSwitch (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLKit/LLUtility (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLKit/LLWeb (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLKit/LLWebp (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - libwebp
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - SDWebImage
+    - SDWebImage/GIF
+    - SDWebImage/WebP
+    - TYPagerController
+  - LLKit/NavSegmentView (1.0.0):
+    - CYLTabBarController
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - Masonry
+    - SDCycleScrollView (~> 1.66)
+    - TYPagerController
+  - LLSpeed (1.0.0)
+  - Masonry (1.0.2)
+  - MBProgressHUD (0.9.2)
+  - MJRefresh (3.1.12)
+  - SDCycleScrollView (1.73):
+    - SDWebImage (~> 4.0.0)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
+  - SDWebImage/GIF (4.0.0):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
+  - SDWebImage/WebP (4.0.0):
+    - libwebp
+    - SDWebImage/Core
+  - TYPagerController (2.0.1)
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
+
+DEPENDENCIES:
+  - LLKit (from `https://github.com/LiGuanWen/LLKit.git`, branch `1.0.0`)
+  - LLSpeed (from `.`)
+
+EXTERNAL SOURCES:
+  LLKit:
+    :branch: 1.0.0
+    :git: https://github.com/LiGuanWen/LLKit.git
+  LLSpeed:
+    :path: .
+
+CHECKOUT OPTIONS:
+  LLKit:
+    :commit: 9ee167e7a6e27a210d9ca79cbae6835942367246
+    :git: https://github.com/LiGuanWen/LLKit.git
+
+SPEC CHECKSUMS:
+  CYLTabBarController: 97f6b486f9e6c613d69e9c111cc9c2c5db7000ce
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  libwebp: 1d5a07c2eb97f9c31bd5f154bb82efc0ea67c6a2
+  LLKit: 7fb1d608ddae2ea23422aa8dbf2d92c2bc760b9c
+  LLSpeed: b192df68e21f447b47387635764ec4f92d400b57
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  SDCycleScrollView: d0fd5fe40a80918371fd8939214eb3be81033d83
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+  TYPagerController: f86e3f85d723caa967655f23661d32beaee7db77
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
+
+PODFILE CHECKSUM: 6998b05104333620e8ef80aabf8a4ee4efe41ed6
+
+COCOAPODS: 1.3.0.beta.2

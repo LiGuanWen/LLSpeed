@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LLSpeedMenuViewController">
+            <connections>
+                <outlet property="aboutButton" destination="9YB-bX-fMh" id="hx9-UM-yK7"/>
+                <outlet property="beginButton" destination="LNK-Kj-Hgi" id="irs-vT-wZL"/>
+                <outlet property="gameImageView" destination="1Fx-UX-jBW" id="M9h-Li-nUj"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WX20171009-205609" translatesAutoresizingMaskIntoConstraints="NO" id="1Fx-UX-jBW">
+                    <rect key="frame" x="16.5" y="66" width="342" height="202"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LNK-Kj-Hgi">
+                    <rect key="frame" x="137.5" y="311.5" width="100" height="44"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="DqN-Ye-Bas"/>
+                        <constraint firstAttribute="width" constant="100" id="QIx-gi-rdb"/>
+                    </constraints>
+                    <state key="normal" title="开始游戏">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="gameBeginAction:" destination="-1" eventType="touchUpInside" id="8RN-Z1-31C"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9YB-bX-fMh">
+                    <rect key="frame" x="137.5" y="388.5" width="100" height="44"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="关于游戏">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="gameAboutAction:" destination="-1" eventType="touchUpInside" id="RXC-MH-TMZ"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="9YB-bX-fMh" firstAttribute="width" secondItem="LNK-Kj-Hgi" secondAttribute="width" id="HA9-Yg-Xt3"/>
+                <constraint firstItem="LNK-Kj-Hgi" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="KdR-6I-m5h"/>
+                <constraint firstItem="LNK-Kj-Hgi" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="M9P-yF-grb"/>
+                <constraint firstItem="9YB-bX-fMh" firstAttribute="top" secondItem="LNK-Kj-Hgi" secondAttribute="bottom" constant="33" id="UQ9-6p-Yv7"/>
+                <constraint firstItem="9YB-bX-fMh" firstAttribute="height" secondItem="LNK-Kj-Hgi" secondAttribute="height" id="YP6-fu-O5l"/>
+                <constraint firstItem="9YB-bX-fMh" firstAttribute="centerX" secondItem="LNK-Kj-Hgi" secondAttribute="centerX" id="cMi-ou-jBz"/>
+                <constraint firstItem="1Fx-UX-jBW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="66" id="kjX-SE-Xhy"/>
+                <constraint firstItem="1Fx-UX-jBW" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="yPg-ei-kPI"/>
+            </constraints>
+            <point key="canvasLocation" x="35.5" y="53.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="WX20171009-205609" width="342" height="202"/>
+    </resources>
+</document>

@@ -232,13 +232,13 @@
 		FDC624E71F750D7D006FEAE5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "第七代目";
 				TargetAttributes = {
 					FDC624EE1F750D7D006FEAE5 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = C6Z4D9LT34;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = Y688PQN5Q4;
+						ProvisioningStyle = Manual;
 					};
 					FDC6250A1F750D7E006FEAE5 = {
 						CreatedOnToolsVersion = 8.3;
@@ -342,12 +342,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LLSpeed/Pods-LLSpeed-resources.sh",
-				"${PODS_ROOT}/LLKit/LLKitClass/HorizontalSelector/HorizontalSelector.xib",
-				"${PODS_ROOT}/LLKit/LLKitClass/HorizontalSelector/HorizontalSelectorCell.xib",
-				"${PODS_ROOT}/LLKit/LLKitClass/LLEvaluationStar/emptyStar.png",
-				"${PODS_ROOT}/LLKit/LLKitClass/LLEvaluationStar/Star.png",
-				"${PODS_ROOT}/LLKit/LLKitClass/LLWeb/WebViewJavascriptBridge/WebViewJavascriptBridge.js.txt",
-				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/../LLSpeedClass/LLSpeedAbout/Controller/LLSpeedAboutViewController.xib",
+				"${PODS_ROOT}/../LLSpeedClass/LLSpeedGame/Controller/LLSpeedGameViewController.xib",
+				"${PODS_ROOT}/../LLSpeedClass/LLSpeedMenu/Controller/LLSpeedMenuViewController.xib",
+				"${PODS_ROOT}/../LLSpeedClass/LLSpeedResource.bundle",
+				"${PODS_ROOT}/../LLSpeedClass/LLSpeedAsset.xcassets",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -433,7 +432,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -441,7 +442,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -482,7 +487,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -490,7 +497,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -520,11 +531,14 @@
 			baseConfigurationReference = 035A5672283A6D9A054B2388 /* Pods-LLSpeed.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = C6Z4D9LT34;
+				DEVELOPMENT_TEAM = Y688PQN5Q4;
 				INFOPLIST_FILE = LLSpeed/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.liguanwen.LLSpeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3b87a13b-2a90-4930-9ed4-5f4164d262e1";
+				PROVISIONING_PROFILE_SPECIFIER = "iOS Wildcard App Development";
 			};
 			name = Debug;
 		};
@@ -533,11 +547,14 @@
 			baseConfigurationReference = 4596AE47B2E8CB0F99FD6646 /* Pods-LLSpeed.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = C6Z4D9LT34;
+				DEVELOPMENT_TEAM = Y688PQN5Q4;
 				INFOPLIST_FILE = LLSpeed/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.liguanwen.LLSpeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3b87a13b-2a90-4930-9ed4-5f4164d262e1";
+				PROVISIONING_PROFILE_SPECIFIER = "iOS Wildcard App Development";
 			};
 			name = Release;
 		};
@@ -610,6 +627,7 @@
 				FDC625211F750D7E006FEAE5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FDC625221F750D7E006FEAE5 /* Build configuration list for PBXNativeTarget "LLSpeedTests" */ = {
 			isa = XCConfigurationList;
@@ -618,6 +636,7 @@
 				FDC625241F750D7E006FEAE5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FDC625251F750D7E006FEAE5 /* Build configuration list for PBXNativeTarget "LLSpeedUITests" */ = {
 			isa = XCConfigurationList;
@@ -626,6 +645,7 @@
 				FDC625271F750D7E006FEAE5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

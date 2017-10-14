@@ -7,8 +7,15 @@
 //
 
 #import "LLSpeedGameViewController.h"
+#import <SpriteKit/SpriteKit.h>
+#import "LLSpeedGameScene.h"
 
 @interface LLSpeedGameViewController ()
+@property (nonatomic, strong) SKView *skView;
+@property (nonatomic, assign) float timeCount;
+@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) BOOL isStart;
 
 @end
 
@@ -16,8 +23,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //主线程调用
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self initGame];
+    });
     // Do any additional setup after loading the view from its nib.
 }
+
+- (void)initGame{
+    self.skView = [[SKView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:self.skView];
+    if (!self.skView.scene) {
+        self.skView.backgroundColor = [SKColor redColor];
+        SKScene *scene = [LLSpeedGameScene sceneWithSize:self.skView.bounds.size];
+        [self.skView presentScene:scene];
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

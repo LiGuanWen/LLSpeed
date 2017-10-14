@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/LiGuanWen/LLSpeed.git", :branch => "#{s.version}" }
   s.source_files  = "LLSpeedClass/**/*.{h,m,mm,a,framework}","LLSpeedClass/LLSpeedPrefixHeader.pch"
-  s.resources    = "LLSpeedClass/**/*.xib","LLSpeedClass/**/*.bundle","LLSpeedClass/**/*.xcassets"
+  s.resources    = "LLSpeedClass/**/*.xib","LLSpeedClass/**/*.caf","LLSpeedClass/**/*.bundle","LLSpeedClass/**/*.xcassets"
   # s.prefix_header_file = 'LLDBClass/LLBuyPrefixHeader.pch'    #PCH文件
   
   #s.vendored_frameworks = "HePaiClub/util/thirdpart/Alipay/AlipaySDK.framework"

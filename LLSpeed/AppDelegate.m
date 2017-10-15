@@ -11,6 +11,10 @@
 #import "LLRouteManager.h"
 #import "LLSpeedRoute.h"
 
+#define LLSPEED_SURVIVAL_TIME_KEY @"llspeed_survival_time"   //生存时长
+#define LLSPEED_CURRENT_TIME_KEY @"llspeed_current_time"     //当前时长
+#define LLSPEED_CURRENT_USER_KEY @"llspeed_current_user"     //当前用户
+
 @interface AppDelegate ()
 
 @end
@@ -27,8 +31,23 @@
     [self.window makeKeyAndVisible];
     //注册路径跳转
     [[LLRouteManager sharedManager] registerRoute:[LLSpeedRoute class]];
+
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView) name:@"kLLSpeedGameOverNotification" object:nil];
     return YES;
 }
+
+ - (void)showView{
+//     HEPGuideView *guideView = [[HEPGuideView alloc] init];
+//     guideView.backgroundColor = [UIColor redColor];
+//     [guideView show];
+     
+//     UIView *adView = [[UIView alloc] initWithFrame:CGRectMake(22, 33, 400, 500)];
+//     adView.backgroundColor = [UIColor redColor];
+//     [self.window addSubview:adView];
+ }
+
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {

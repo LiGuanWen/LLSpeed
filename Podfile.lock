@@ -1,8 +1,10 @@
 PODS:
+  - FDFullscreenPopGesture (1.1)
   - LLRoute (1.0.0)
   - LLSpeed (1.0.0)
 
 DEPENDENCIES:
+  - FDFullscreenPopGesture (~> 1.1)
   - LLRoute (from `https://github.com/LiGuanWen/LLRoute.git`)
   - LLSpeed (from `.`)
 
@@ -18,9 +20,10 @@ CHECKOUT OPTIONS:
     :git: https://github.com/LiGuanWen/LLRoute.git
 
 SPEC CHECKSUMS:
+  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   LLRoute: 6f93b69c2024828c46a8b1aa334890778531ddba
   LLSpeed: 10f88b728fb4736255f1ebb6d27f24a794891ae0
 
-PODFILE CHECKSUM: 95ccb08db3be1440fa99d66c712e455c1620907c
+PODFILE CHECKSUM: c223061d27f7e0a59c881631198393dba797f6be
 
 COCOAPODS: 1.3.0.beta.2

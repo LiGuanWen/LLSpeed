@@ -342,9 +342,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LLSpeed/Pods-LLSpeed-resources.sh",
+				"${PODS_ROOT}/../LLSpeedClass/HEPGuideView.xib",
 				"${PODS_ROOT}/../LLSpeedClass/LLSpeedAbout/Controller/LLSpeedAboutViewController.xib",
 				"${PODS_ROOT}/../LLSpeedClass/LLSpeedGame/Controller/LLSpeedGameViewController.xib",
 				"${PODS_ROOT}/../LLSpeedClass/LLSpeedMenu/Controller/LLSpeedMenuViewController.xib",
+				"${PODS_ROOT}/../LLSpeedClass/LLSpeedRankingList/Controller/LLSpeedRankingListViewController.xib",
+				"${PODS_ROOT}/../LLSpeedClass/LLSpeedRankingList/View/LLSpeedRankingTableViewCell.xib",
 				"${PODS_ROOT}/../LLSpeedClass/LLSpeedScene/bgm1.caf",
 				"${PODS_ROOT}/../LLSpeedClass/LLSpeedScene/bgm2.caf",
 				"${PODS_ROOT}/../LLSpeedClass/LLSpeedScene/gameOverSound.caf",

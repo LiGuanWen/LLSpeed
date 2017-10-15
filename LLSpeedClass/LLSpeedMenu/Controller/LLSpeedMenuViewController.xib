@@ -10,9 +10,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LLSpeedMenuViewController">
             <connections>
-                <outlet property="aboutButton" destination="9YB-bX-fMh" id="hx9-UM-yK7"/>
+                <outlet property="aboutButton" destination="Edi-xB-wtB" id="ekc-jO-taU"/>
                 <outlet property="beginButton" destination="LNK-Kj-Hgi" id="irs-vT-wZL"/>
                 <outlet property="gameImageView" destination="1Fx-UX-jBW" id="M9h-Li-nUj"/>
+                <outlet property="rankingListButton" destination="9YB-bX-fMh" id="v1f-X6-O5G"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -41,23 +42,37 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9YB-bX-fMh">
                     <rect key="frame" x="137.5" y="388.5" width="100" height="44"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="排行榜">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="rankingListAction:" destination="-1" eventType="touchUpInside" id="gb6-2y-7X0"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Edi-xB-wtB">
+                    <rect key="frame" x="137.5" y="465.5" width="100" height="44"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <state key="normal" title="关于游戏">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="gameAboutAction:" destination="-1" eventType="touchUpInside" id="RXC-MH-TMZ"/>
+                        <action selector="gameAboutAction:" destination="-1" eventType="touchUpInside" id="SnD-sh-GgL"/>
                     </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="9YB-bX-fMh" firstAttribute="width" secondItem="LNK-Kj-Hgi" secondAttribute="width" id="HA9-Yg-Xt3"/>
+                <constraint firstItem="Edi-xB-wtB" firstAttribute="width" secondItem="9YB-bX-fMh" secondAttribute="width" id="IUX-Q5-Kx9"/>
                 <constraint firstItem="LNK-Kj-Hgi" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="KdR-6I-m5h"/>
+                <constraint firstItem="Edi-xB-wtB" firstAttribute="height" secondItem="9YB-bX-fMh" secondAttribute="height" id="LFH-kw-UZd"/>
                 <constraint firstItem="LNK-Kj-Hgi" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="M9P-yF-grb"/>
                 <constraint firstItem="9YB-bX-fMh" firstAttribute="top" secondItem="LNK-Kj-Hgi" secondAttribute="bottom" constant="33" id="UQ9-6p-Yv7"/>
                 <constraint firstItem="9YB-bX-fMh" firstAttribute="height" secondItem="LNK-Kj-Hgi" secondAttribute="height" id="YP6-fu-O5l"/>
                 <constraint firstItem="9YB-bX-fMh" firstAttribute="centerX" secondItem="LNK-Kj-Hgi" secondAttribute="centerX" id="cMi-ou-jBz"/>
+                <constraint firstItem="Edi-xB-wtB" firstAttribute="top" secondItem="9YB-bX-fMh" secondAttribute="bottom" constant="33" id="cO3-2s-SvK"/>
                 <constraint firstItem="1Fx-UX-jBW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="66" id="kjX-SE-Xhy"/>
+                <constraint firstItem="Edi-xB-wtB" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="qxU-xj-6Aa"/>
                 <constraint firstItem="1Fx-UX-jBW" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="yPg-ei-kPI"/>
             </constraints>
             <point key="canvasLocation" x="35.5" y="53.5"/>

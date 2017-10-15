@@ -16,6 +16,8 @@ static NSString *const llspeed_routeWithBegin = @"llspeed://game/begin";
 static NSString *const llspeed_routeWithMenu = @"llspeed://game/menu";
 //关于
 static NSString *const llspeed_routeWithAbout = @"llspeed://game/about";
+//排行榜
+static NSString *const llspeed_routeWithRankingList = @"llspeed://game/rankingList";
 
 @interface LLSpeedRoute : NSObject
 @property (nonatomic,strong) UIViewController *currentVC; //跳转的VC

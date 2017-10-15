@@ -10,6 +10,7 @@
 #import "LLSpeedAboutViewController.h"  //关于
 #import "LLSpeedMenuViewController.h"   //菜单
 #import "LLSpeedGameViewController.h"   //开始
+#import "LLSpeedRankingListViewController.h" //排行榜
 
 @implementation LLSpeedRoute
 
@@ -138,6 +139,11 @@
         [LLSpeedRoute pushToGameAboutWithCurrVC:self.currentVC];
         return;
     }
+    //排行榜
+    if ([moduleInfo.page isEqualToString:@"/rankingList"]) {
+        [LLSpeedRoute pushToGameRankingListWithCurrVC:self.currentVC];
+        return;
+    }
 }
 
 //开始
@@ -157,6 +163,13 @@
 //关于
 + (void)pushToGameAboutWithCurrVC:(UIViewController *)currVC{
     LLSpeedAboutViewController *vc = [[LLSpeedAboutViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [currVC.navigationController pushViewController:vc animated:YES];
+}
+
+//排行榜
++ (void)pushToGameRankingListWithCurrVC:(UIViewController *)currVC{
+    LLSpeedRankingListViewController *vc = [[LLSpeedRankingListViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [currVC.navigationController pushViewController:vc animated:YES];
 }

@@ -6,58 +6,87 @@
 //
 
 #import "LLSpeedGameScene.h"
+#import "LLSpeedRoute.h"
 @import AVFoundation;
 
 #define RunInPlacePlayer @"runInPlacePlayer"
+#define BG_MUSIC_OPEN_STAUS @"kbgMusicOpenStatus"
+#define OPEN @"open"
+#define CLOSE @"close"
+
+#define SAVE_LLSPEED_GEME_DATA_KEY @"SAVE_LLSPEED_GEME_DATA_KEY"
+#define LLSPEED_SURVIVAL_TIME_KEY @"llspeed_survival_time"   //生存时长
+#define LLSPEED_CURRENT_TIME_KEY @"llspeed_current_time"     //当前时长
+#define LLSPEED_CURRENT_USER_KEY @"llspeed_current_user"     //当前用户
 
 static const uint32_t playerCategory       =  0x1 << 0;
 static const uint32_t objectCategory       =  0x1 << 1;
 static const uint32_t groundCategory       =  0x1 << 2;
 static const uint32_t StageCategory        =  0x1 << 3;
 
-
-@interface LLSpeedGameScene ()<SKPhysicsContactDelegate>{
-    dispatch_source_t timergcd;  //
+@interface LLSpeedGameScene ()<SKPhysicsContactDelegate,UIAlertViewDelegate>{
+    dispatch_source_t timergcd;  //定时器
 }
 @property (nonatomic, strong) SKSpriteNode *player;   //跑步者🏃
 @property (nonatomic, strong) SKSpriteNode *ground;   //底线
 @property (nonatomic, strong) SKSpriteNode *object;    //台阶
-
+@property (strong, nonatomic) SKSpriteNode *stage;     //平台
 @property (strong, nonatomic) SKLabelNode *timeLabel;  //计时器
+@property (strong, nonatomic) SKLabelNode *countLabel; //倒计时
 @property (strong, nonatomic) NSMutableArray *playerRunFrames;  //存储跑步帧
 
-@property (assign, nonatomic) float timeCount;
-
+@property (assign, nonatomic) float timeCount;  //计时
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;  //播放音频
-
 @property (nonatomic) BOOL isJumping;  //是否跳起重
-
 @property (nonatomic) NSTimeInterval lastSpawnTimeInterval;
 @property (nonatomic) NSTimeInterval lastUpdateTimeInterval;
+@property (strong, nonatomic) UIAlertView *saveNickNameAlertView;
 
+@property (weak, nonatomic) UIViewController *superVC;
+
+@property (assign, nonatomic) BOOL isGameOver;
+@property (assign, nonatomic) BOOL isCloseBgMuisc;  //是否关闭背景音乐
+@property (strong, nonatomic) NSMutableDictionary *currDict;
+@property (strong, nonatomic) NSMutableArray *gameDataArr;
+@property (strong, nonatomic) NSString *currNickName;
 @end
 
 @implementation LLSpeedGameScene
 
 - (void)dealloc{
     NSLog(@"内存释放");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (instancetype)initWithSize:(CGSize)size{
+- (instancetype)initWithSize:(CGSize)size superVC:(UIViewController *)superVC{
     if (self = [super initWithSize:size]) {
-        //设置场景背景色
-        self.backgroundColor = [SKColor whiteColor];
-        [self createPlayer];  //创建人物
-        [self createGround];  //创建底线
-        [self createStage];   //创建平台
-        [self createTimeLabel];  //创建计时器
-        [self createCountDounLabel];  //开始倒计时
-        self.physicsWorld.gravity = CGVectorMake(0 , -5);
-        self.physicsWorld.contactDelegate = self;
+        self.superVC = superVC;
+        NSString *isOpen = [[NSUserDefaults standardUserDefaults] objectForKey:BG_MUSIC_OPEN_STAUS];
+        if ([isOpen?:@"" isEqualToString:CLOSE]) {
+            self.isCloseBgMuisc = YES;
+        }else{
+            self.isCloseBgMuisc = NO;
+        }
+        [self initGame];
     }
     return self;
 }
-
+//初始化游戏
+- (void)initGame{
+    [self removeAllChildren];
+    [self removeAllActions];
+    self.isGameOver = NO;
+    //设置场景背景色
+    self.backgroundColor = [SKColor whiteColor];
+    [self createPlayer];  //创建人物
+    [self createGround];  //创建底线
+    [self createStage];   //创建平台
+    self.timeCount = 0;
+    [self createTimeLabel];  //创建计时器
+    [self createCountDounLabel];  //开始倒计时
+    self.physicsWorld.gravity = CGVectorMake(0 , -5);
+    self.physicsWorld.contactDelegate = self;
+}
 
 // 场景人物
 - (void)createPlayer{
@@ -76,7 +105,10 @@ static const uint32_t StageCategory        =  0x1 << 3;
         return;
     }
     SKTexture *temp = self.playerRunFrames[0];
-    self.player = [[SKSpriteNode alloc]initWithTexture:temp color:[UIColor clearColor] size:CGSizeMake(30, 40)];
+    if (self.player) {
+        self.player = nil;
+    }
+    self.player = [[SKSpriteNode alloc] initWithTexture:temp color:[UIColor clearColor] size:CGSizeMake(30, 40)];
     if ([[UIScreen mainScreen]bounds].size.width == 768) {
         self.player.size = CGSizeMake(40, 55);
     }
@@ -92,7 +124,6 @@ static const uint32_t StageCategory        =  0x1 << 3;
     self.player.physicsBody.collisionBitMask = objectCategory | groundCategory | StageCategory;
     self.player.physicsBody.usesPreciseCollisionDetection = YES;
     self.player.physicsBody.allowsRotation = NO;
-
 }
 //添加人物奔跑方法
 - (void)runPlayer{
@@ -101,6 +132,9 @@ static const uint32_t StageCategory        =  0x1 << 3;
 }
 //创建底线
 - (void)createGround{
+    if (self.ground) {
+        self.ground = nil;
+    }
     self.ground = [[SKSpriteNode alloc] initWithTexture:[SKTexture textureWithImageNamed:@"sceneView_ground"] color:[UIColor clearColor] size:CGSizeMake(self.size.width, 30)];
     if ([[UIScreen mainScreen] bounds].size.width == 768) {
         self.ground.size = CGSizeMake(self.size.width, 45);
@@ -116,30 +150,38 @@ static const uint32_t StageCategory        =  0x1 << 3;
     self.ground.physicsBody.collisionBitMask = playerCategory;
     self.ground.physicsBody.usesPreciseCollisionDetection = YES;
 }
+
+
 //创建平台
 - (void)createStage{
-    SKSpriteNode *stage = [[SKSpriteNode alloc] initWithColor:[SKColor blackColor] size:CGSizeMake(self.frame.size.width * 3, 250)];
-    stage.position = CGPointMake(self.size.width, CGRectGetMidY(self.frame) - 50);
-    [self addChild:stage];
+    if (self.stage) {
+        self.stage = nil;
+    }
+    self.stage = [[SKSpriteNode alloc] initWithColor:[SKColor blackColor] size:CGSizeMake(self.frame.size.width * 3, 250)];
+    self.stage.position = CGPointMake(self.size.width, CGRectGetMidY(self.frame) - 50);
+    [self addChild:self.stage];
     //初始平台
-    stage.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:stage.size];
-    stage.physicsBody.dynamic = NO;
-    stage.physicsBody.affectedByGravity = NO;
-    stage.physicsBody.categoryBitMask = StageCategory;
-    stage.physicsBody.collisionBitMask = playerCategory;
-    stage.physicsBody.contactTestBitMask = playerCategory;
-    stage.physicsBody.usesPreciseCollisionDetection = YES;
+    self.stage.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.stage.size];
+    self.stage.physicsBody.dynamic = NO;
+    self.stage.physicsBody.affectedByGravity = NO;
+    self.stage.physicsBody.categoryBitMask = StageCategory;
+    self.stage.physicsBody.collisionBitMask = playerCategory;
+    self.stage.physicsBody.contactTestBitMask = playerCategory;
+    self.stage.physicsBody.usesPreciseCollisionDetection = YES;
     int duration = 5;
     if ([UIScreen mainScreen].bounds.size.width == 768) {
-        stage.size = CGSizeMake(self.size.width * 2, 250);
+        self.stage.size = CGSizeMake(self.size.width * 2, 250);
         duration = 4;
     }
-    SKAction *actionMove = [SKAction moveToX:-stage.size.width / 2 duration:duration];
-    [stage runAction:[SKAction sequence:@[actionMove, [SKAction removeFromParent]]]];
+    SKAction *actionMove = [SKAction moveToX:-self.stage.size.width / 2 duration:duration];
+    [self.stage runAction:[SKAction sequence:@[actionMove, [SKAction removeFromParent]]]];
 }
 
 //创建计时器
 - (void)createTimeLabel{
+    if (self.timeLabel) {
+        self.timeLabel = nil;
+    }
     self.timeLabel = [[SKLabelNode alloc] init];
     self.timeLabel.position = CGPointMake(self.size.width/2, self.size.height/2 + 180);
     self.timeLabel.fontSize = 50;
@@ -186,11 +228,13 @@ static const uint32_t StageCategory        =  0x1 << 3;
 - (void)startTime{
     [self startTimergcd];
     NSError *error;
-    NSURL *backgroundMusicURL = [[NSBundle mainBundle]URLForResource:@"bgm1" withExtension:@"caf"];
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundMusicURL error:&error];
-    self.audioPlayer.numberOfLoops = -1;
-    [self.audioPlayer prepareToPlay];
-    [self.audioPlayer play];
+    if (!self.isCloseBgMuisc) {
+        NSURL *backgroundMusicURL = [[NSBundle mainBundle]URLForResource:@"bgm1" withExtension:@"caf"];
+        self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundMusicURL error:&error];
+        self.audioPlayer.numberOfLoops = -1;
+        [self.audioPlayer prepareToPlay];
+        [self.audioPlayer play];
+    }
 }
 
 - (void)addTime{
@@ -290,7 +334,15 @@ static const uint32_t StageCategory        =  0x1 << 3;
     if ([[UIScreen mainScreen]bounds].size.width == 768) {
         duration = 3;
     }
-    if ([self.timeLabel.text floatValue]>60) {
+    //刚刚开始 降低难度
+    if ([self.timeLabel.text floatValue] < 10) {
+        duration = 3;
+        if (width < 66) {
+            width = 66;
+        }
+    }
+    
+    if ([self.timeLabel.text floatValue] > 60) {
         width = arc4random()%100 + 150;
         duration = 1.9;
     }
@@ -317,35 +369,38 @@ static const uint32_t StageCategory        =  0x1 << 3;
 }
 
 #pragma mark - 游戏难度随时间递增
-
 - (void)gameDifficultyChange{
     SKAction *act = [SKAction moveToX:-self.size.width duration:5];
-    SKLabelNode *countLabel = [[SKLabelNode alloc] init];
-    countLabel.position = CGPointMake(self.size.width + countLabel.frame.size.width / 2, self.size.height / 2 + 110);
-    countLabel.fontColor =[ SKColor blackColor];
-    countLabel.fontSize = 20;
+    if (self.countLabel) {
+        self.countLabel = nil;
+    }
+    self.countLabel = [[SKLabelNode alloc] init];
+    self.countLabel.position = CGPointMake(self.size.width + self.countLabel.frame.size.width / 2, self.size.height / 2 + 110);
+    self.countLabel.fontColor = [SKColor blackColor];
+    self.countLabel.fontSize = 20;
     if ([UIScreen mainScreen].bounds.size.width == 768) {
-        countLabel.fontSize = 40;
+       self.countLabel.fontSize = 40;
     }
     if ([self.timeLabel.text floatValue] > 60 & [self.timeLabel.text floatValue] < 60.3) {
-        countLabel.text = @"你竟然跑了1分钟了，看来得给你加点难度了";
-        [self addChild:countLabel];
-        [countLabel runAction:act completion:^{
-            [countLabel removeFromParent];
+        self.countLabel.text = @"你竟然跑了1分钟了，看来得给你加点难度了";
+        [self addChild:self.countLabel];
+        [self.countLabel runAction:act completion:^{
+            [self.countLabel removeFromParent];
         }];
-        
-        NSError *error;
-        NSURL *backgroundMusicURL = [[NSBundle mainBundle] URLForResource:@"bgm2" withExtension:@"caf"];
-        self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundMusicURL error:&error];
-        self.audioPlayer.numberOfLoops = -1;
-        [self.audioPlayer prepareToPlay];
-        [self.audioPlayer play];
+        if (!self.isCloseBgMuisc) {
+            NSError *error;
+            NSURL *backgroundMusicURL = [[NSBundle mainBundle] URLForResource:@"bgm2" withExtension:@"caf"];
+            self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundMusicURL error:&error];
+            self.audioPlayer.numberOfLoops = -1;
+            [self.audioPlayer prepareToPlay];
+            [self.audioPlayer play];
+        }
     }
     if ([self.timeLabel.text floatValue] > 180 & [self.timeLabel.text floatValue] < 180.3) {
-        countLabel.text = @"3分钟了！可是没有人能在这个游戏撑过4分钟！你也不行！";
-        [self addChild:countLabel];
-        [countLabel runAction:act completion:^{
-            [countLabel removeFromParent];
+        self.countLabel.text = @"3分钟了！可是没有人能在这个游戏撑过4分钟！你也不行！";
+        [self addChild:self.countLabel];
+        [self.countLabel runAction:act completion:^{
+            [self.countLabel removeFromParent];
         }];
     }
 }
@@ -372,7 +427,9 @@ static const uint32_t StageCategory        =  0x1 << 3;
         }
     }
     if ((firstBody.categoryBitMask & playerCategory) != 0 && (secondBody.categoryBitMask & groundCategory) != 0) {
-        [self runAction:[SKAction playSoundFileNamed:@"gameOverSound.caf" waitForCompletion:NO]];
+        if (!self.isCloseBgMuisc) {
+            [self runAction:[SKAction playSoundFileNamed:@"gameOverSound.caf" waitForCompletion:NO]];
+        }
         [self gameOver];
     }
     if ((firstBody.categoryBitMask & playerCategory) != 0 && (secondBody.categoryBitMask & StageCategory) != 0){
@@ -380,12 +437,149 @@ static const uint32_t StageCategory        =  0x1 << 3;
         self.isJumping = NO;
     }
 }
+
 - (void)didEndContact:(SKPhysicsContact *)contact{
     
 }
 
 - (void)gameOver{
-    [self stopTimergcd];
+    if (self.isGameOver == NO) {
+        self.isGameOver = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"kLLSpeedGameOverNotification" object:nil];
+        [self stopTimergcd];
+        [self.player removeAllActions];
+        [self.audioPlayer stop];
+
+        self.currDict = [[NSMutableDictionary alloc] init];
+        [self.currDict setObject:self.timeLabel.text forKey:LLSPEED_SURVIVAL_TIME_KEY];  //生存时长
+        NSString *currData = [self getCurrentTime];
+        [self.currDict setObject:currData forKey:LLSPEED_CURRENT_TIME_KEY];  //当前时间
+        
+        NSArray *dataArr = [[NSUserDefaults standardUserDefaults] objectForKey:SAVE_LLSPEED_GEME_DATA_KEY];
+        self.gameDataArr = [[NSMutableArray alloc] init];
+        if (dataArr.count > 0) {
+            [self.gameDataArr addObjectsFromArray:dataArr];
+        }
+  
+        [self.gameDataArr addObject:self.currDict];
+        [[NSUserDefaults standardUserDefaults] setObject:self.gameDataArr forKey:SAVE_LLSPEED_GEME_DATA_KEY];
+        NSString *ranking;
+        NSArray *gameDataArrDESC = [self arraySortDESC:self.gameDataArr];
+        for (int i = 0; i < gameDataArrDESC.count; i++) {
+            NSMutableDictionary *dic = gameDataArrDESC[i];
+            if ([dic isEqual:self.currDict]){
+                ranking = [NSString stringWithFormat:@"当前排名：%d",i+1];
+                break;
+            }
+        }
+        NSString *hint1 = [NSString stringWithFormat:@"\n生存时长：%@秒\n\n",self.timeLabel.text];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"游戏结束" message:[NSString stringWithFormat:@"%@%@",hint1,ranking?:@""] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *saveAgreeAction = [UIAlertAction actionWithTitle:@"保存昵称并重新开始" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            self.saveNickNameAlertView = [[UIAlertView alloc] initWithTitle:@"保存昵称" message:@"请输入您的昵称" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [self.saveNickNameAlertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+            UITextField *txtName = [self.saveNickNameAlertView textFieldAtIndex:0];
+            txtName.placeholder = @"请输入您的昵称";
+            if (self.currNickName.length > 0) {
+                txtName.text = self.currNickName;
+            }
+            [self.saveNickNameAlertView show];
+        }];
+       [alert addAction:saveAgreeAction];
+        UIAlertAction *agreeAction = [UIAlertAction actionWithTitle:@"重新开始" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //重新开始
+            [self initGame];
+        }];
+        [alert addAction:agreeAction];
+        UIAlertAction *rankingAction = [UIAlertAction actionWithTitle:@"排行榜" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //排行榜
+            [LLRoute routeWithUrl:[NSURL URLWithString:llspeed_routeWithRankingList] currentVC:self.superVC hidesBottomBarWhenPushed:YES parameterDict:nil];
+        }];
+        [alert addAction:rankingAction];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            //退出
+            if (self.superVC.navigationController) {
+                [self.superVC.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+        [alert addAction:cancelAction];
+        [self.superVC presentViewController:alert animated:YES completion:nil];
+    }
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+     if (alertView == self.saveNickNameAlertView){
+        if (buttonIndex == 1) {
+            UITextField *txt = [self.saveNickNameAlertView textFieldAtIndex:0];
+            //获取txt内容即可
+            if (txt.text.length > 0) {
+                self.currNickName = txt.text;
+                [self.currDict setObject:txt.text forKey:LLSPEED_CURRENT_USER_KEY];  //当前昵称
+                [self.gameDataArr removeObject:self.currDict];
+                [self.gameDataArr addObject:self.currDict];
+                [[NSUserDefaults standardUserDefaults] setObject:self.gameDataArr forKey:SAVE_LLSPEED_GEME_DATA_KEY];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            }
+            //重新开始
+            [self initGame];
+        }
+    }
+}
+//检查是否关闭了背景音乐
+- (BOOL)checkIsCloseBgMusic{
+    return self.isCloseBgMuisc;
+}
+//打开 关闭 背景音乐
+- (void)bgMusicOpenStatus:(BOOL)status{
+    self.isCloseBgMuisc = !status;
+    if (status) {
+        [[NSUserDefaults standardUserDefaults] setObject:OPEN forKey:BG_MUSIC_OPEN_STAUS];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }else{
+        [[NSUserDefaults standardUserDefaults] setObject:CLOSE forKey:BG_MUSIC_OPEN_STAUS];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    if (self.audioPlayer) {
+        [self.audioPlayer pause];
+        self.audioPlayer = nil;
+    }
+}
+//退出游戏
+- (void)quitGame{
+    [self stopTimergcd];
+    if (self.superVC.navigationController) {
+        [self.superVC.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+- (NSString *)getCurrentTime{
+    NSDate *date = [NSDate date]; // 获得时间对象
+    NSDateFormatter *forMatter = [[NSDateFormatter alloc] init];
+    [forMatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateStr = [forMatter stringFromDate:date];
+    return dateStr;
+}
+
+- (NSArray *)arraySortDESC:(NSArray *)array{
+    //对数组进行排序
+    NSArray *result = [array sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSMutableDictionary *dict1 = (NSMutableDictionary *)obj1;
+        NSMutableDictionary *dict2 = (NSMutableDictionary *)obj2;
+        float time1 = [dict1[LLSPEED_SURVIVAL_TIME_KEY] floatValue];
+        float time2 = [dict2[LLSPEED_SURVIVAL_TIME_KEY] floatValue];
+        if (time1 < time2) {
+            return NSOrderedDescending;
+        }
+        else if (time1 > time2){
+            return NSOrderedAscending;
+        }else {
+            return NSOrderedSame;
+        }
+    }];
+    NSLog(@"result=%@",result);
+    return result;
+}
+
+
 
 @end

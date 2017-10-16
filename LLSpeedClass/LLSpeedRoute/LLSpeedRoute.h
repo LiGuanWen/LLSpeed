@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "LLRoute.h"
-
+#import "LLRouteManager.h"
 #define LLSPEED_SCHEME @"llspeed"
 
 //开始页面
@@ -25,6 +25,9 @@ static NSString *const llspeed_routeWithRankingList = @"llspeed://game/rankingLi
 @property (nonatomic,assign) BOOL isPush; //是否跳转页面
 @property (nonatomic,assign) BOOL hidesBottom; //是否跳转页面
 @property (nonatomic,strong) NSMutableDictionary *parameterDict; //对象参数
+
+//注册路径跳转
++ (void)registerRoute;
 
 /**
  路径跳转

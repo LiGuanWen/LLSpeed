@@ -30,8 +30,7 @@
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     //注册路径跳转
-    [[LLRouteManager sharedManager] registerRoute:[LLSpeedRoute class]];
-
+    [LLSpeedRoute registerRoute];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showView) name:@"kLLSpeedGameOverNotification" object:nil];
     return YES;

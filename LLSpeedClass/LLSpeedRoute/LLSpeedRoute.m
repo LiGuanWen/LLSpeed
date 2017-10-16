@@ -14,7 +14,10 @@
 
 @implementation LLSpeedRoute
 
-
+//注册路径跳转
++ (void)registerRoute{
+    [[LLRouteManager sharedManager] registerRoute:[LLSpeedRoute class]];    
+}
 /**
  跳转前缀
  */
